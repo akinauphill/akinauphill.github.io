@@ -1,0 +1,39 @@
+/* ===== Reset / Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: sans-serif;
+  line-height: 1.6;
+}
+
+/* ===== Layout ===== */
+header {
+}
+
+nav {
+}
+
+main {
+}
+
+section {
+}
+
+footer {
+}
+
+/* ===== Components ===== */
+
+/* ===== Utilities ===== */
+
+/* ===== Media Queries ===== */
+@media (max-width: 768px) {
+}
