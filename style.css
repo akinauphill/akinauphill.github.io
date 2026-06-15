@@ -480,6 +480,23 @@ img { display: block; max-width: 100%; }
 .pf-view { display: none; }
 .pf-view.is-active { display: block; }
 
+/* ── Easter egg — Konami "access granted" + matrix rain ─────────────────── */
+.au-egg { position: fixed; inset: 0; z-index: 9999; display: none; cursor: pointer; }
+.au-egg.is-on { display: block; animation: auEggIn var(--t) var(--ease-out); }
+.au-egg__canvas { position: absolute; inset: 0; width: 100%; height: 100%; background: rgba(8, 10, 9, 0.92); }
+.au-egg__panel {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  text-align: center; font-family: var(--font-mono); padding: 1.6rem 2.2rem;
+  background: rgba(8, 10, 9, 0.82); border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md); box-shadow: var(--glow-accent-strong);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); max-width: 90vw;
+}
+.au-egg__title { color: var(--neon); font-size: var(--fs-xl); font-weight: 700; letter-spacing: var(--ls-tight); text-shadow: var(--text-glow); animation: auEggGlitch 2.4s steps(1) infinite; }
+.au-egg__sub { color: var(--text-secondary); font-size: var(--fs-sm); margin-top: 0.7rem; }
+.au-egg__hint { color: var(--text-tertiary); font-size: var(--fs-xs); margin-top: 1.1rem; }
+@keyframes auEggIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes auEggGlitch { 0%, 92%, 100% { transform: none; } 94% { transform: translateX(-2px) skewX(-4deg); } 96% { transform: translateX(2px); } }
+
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 980px) {
   .pf-hero__grid, .pf-about, .pf-contact, .pf-featured { grid-template-columns: 1fr; }

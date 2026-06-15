@@ -200,8 +200,90 @@ function toggleTheme() {
   document.getElementById('themeToggle').textContent = next === 'dark' ? '◐' : '◑';
 }
 
+/* ============================================================================
+   Easter eggs — for anyone poking at the source. On-brand: terminal/hacker.
+   1) A styled DevTools console greeting (with a hint).
+   2) Konami code (↑↑↓↓←→←→ B A) → "ACCESS GRANTED" + neon matrix rain.
+   ========================================================================== */
+function consoleGreeting() {
+  try {
+    const big = 'font: 700 22px "Space Mono", monospace; color: #b026ff; text-shadow: 0 0 8px rgba(176,38,255,.6);';
+    const mono = 'font: 12px "Space Mono", monospace; color: #99a39b; line-height: 1.6;';
+    console.log('%cakinauphill_', big);
+    console.log('%c// poking around the source? i like you already.\n// say hi  → github.com/akinauphill\n// psst   → try the Konami code:  ↑ ↑ ↓ ↓ ← → ← → B A', mono);
+  } catch (e) { /* no console — no problem */ }
+}
+
+function initEasterEgg() {
+  const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  const prefersReduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let pos = 0, active = false, raf = null, drops = [];
+  const FONT = 16;
+  const GLYPHS = 'アイウエオカキクケコサシスセソ01<>/$#_{}[]=*+akinauphill';
+
+  // Build the overlay once, lazily, so index.html stays clean.
+  const egg = document.createElement('div');
+  egg.className = 'au-egg';
+  egg.innerHTML =
+    '<canvas class="au-egg__canvas"></canvas>' +
+    '<div class="au-egg__panel">' +
+      '<div class="au-egg__title">root@akinauphill:~# ACCESS GRANTED</div>' +
+      '<div class="au-egg__sub">you found the easter egg. now go build something.</div>' +
+      '<div class="au-egg__hint">press any key or click to exit</div>' +
+    '</div>';
+  document.body.appendChild(egg);
+  const canvas = egg.querySelector('.au-egg__canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drops = new Array(Math.ceil(canvas.width / FONT)).fill(0).map(() => Math.random() * -50);
+  }
+  function frame() {
+    ctx.fillStyle = 'rgba(8, 10, 9, 0.12)';      // translucent wash → fading trails
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#b026ff';
+    ctx.font = FONT + 'px "Space Mono", monospace';
+    for (let i = 0; i < drops.length; i++) {
+      ctx.fillText(GLYPHS[Math.floor(Math.random() * GLYPHS.length)], i * FONT, drops[i] * FONT);
+      if (drops[i] * FONT > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function closeOnce(e) { e.preventDefault(); close(); }
+  function open() {
+    if (active) return;
+    active = true;
+    egg.classList.add('is-on');
+    if (!prefersReduce()) { resize(); window.addEventListener('resize', resize); raf = requestAnimationFrame(frame); }
+    window.addEventListener('keydown', closeOnce, true);
+    egg.addEventListener('click', close);
+  }
+  function close() {
+    if (!active) return;
+    active = false;
+    egg.classList.remove('is-on');
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    window.removeEventListener('resize', resize);
+    window.removeEventListener('keydown', closeOnce, true);
+    egg.removeEventListener('click', close);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (active) return;
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    pos = (k === KONAMI[pos]) ? pos + 1 : (k === KONAMI[0] ? 1 : 0);
+    if (pos === KONAMI.length) { pos = 0; open(); }
+  });
+}
+
 /* ── Wire up ─────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  consoleGreeting();
+  initEasterEgg();
+
   renderSkills();
   renderPreview();
   renderFilters();
