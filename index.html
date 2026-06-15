@@ -1,39 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>akinauphill</title>
+  <title>akinauphill — portfolio</title>
+  <meta name="description" content="akinauphill — 22, self-taught developer, founder & co-owner of KyotoServices. Java, Kotlin, Python, Angular & React.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <!-- navigation links -->
+  <div class="pf atmosphere">
+
+    <!-- ── Navbar ──────────────────────────────────────────────────────── -->
+    <nav class="pf-nav">
+      <div class="pf-nav__inner">
+        <button class="pf-brand" data-nav="home">akinauphill<span class="pf-brand__cur">_</span></button>
+        <ul class="pf-nav__links">
+          <li><button data-nav="home" class="is-active">home</button></li>
+          <li><button data-nav="home#work">work</button></li>
+          <li><button data-nav="home#about">about</button></li>
+          <li><button data-nav="projects">projects</button></li>
+        </ul>
+        <div class="pf-nav__right">
+          <button class="pf-iconbtn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">◐</button>
+          <a class="au-btn au-btn--secondary au-btn--sm" href="https://github.com/akinauphill" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
     </nav>
-  </header>
 
-  <main>
-    <section id="hero">
-      <!-- hero / intro content -->
-    </section>
+    <!-- ════════════════════════ HOME VIEW ════════════════════════════════ -->
+    <main class="pf-view is-active" id="view-home">
 
-    <section id="about">
-      <!-- about content -->
-    </section>
+      <!-- ── Hero ──────────────────────────────────────────────────────── -->
+      <header class="pf-hero">
+        <div class="pf-hero__glow"></div>
+        <div class="pf-hero__grid">
+          <div>
+            <div class="pf-badge"><span class="au-dot au-dot--online"></span> Open to collabs &amp; freelance</div>
+            <h1 class="pf-hero__title">SOFTWARE<span class="ac">,</span><br>SELF&#8209;TAUGHT<span class="ac">,</span><br>SHIPPED<span class="ac">.</span></h1>
+            <p class="pf-hero__tag">22, self-taught, then sharpened by three years of programming school. I found and run <strong style="color: var(--text-primary)">KyotoServices</strong> — shipping anticheats, APIs and the web that runs them.</p>
+            <div class="pf-hero__ctas">
+              <button class="au-btn au-btn--primary" data-nav="projects">View the work</button>
+              <a class="au-btn au-btn--terminal" href="#contact">$ get in touch</a>
+            </div>
+            <div class="pf-hero__stats">
+              <div class="au-stat"><span class="au-stat__val au-stat__val--accent">22</span><span class="au-stat__lbl">Years old</span></div>
+              <div class="au-stat"><span class="au-stat__val au-stat__val--accent">6+</span><span class="au-stat__lbl">Languages</span></div>
+              <div class="au-stat"><span class="au-stat__val au-stat__val--accent">3yr</span><span class="au-stat__lbl">Pro school</span></div>
+            </div>
+          </div>
+          <div class="au-term">
+            <div class="au-term__bar">
+              <span class="au-term__dot" style="background: var(--accent)"></span>
+              <span class="au-term__dot" style="background: var(--cyan)"></span>
+              <span class="au-term__dot" style="background: var(--amber)"></span>
+              <span class="au-term__title">bash — whoami</span>
+            </div>
+            <div class="au-term__body">
+              <div><span class="au-term__prompt">akina@uphill</span><span class="au-term__path">:~$ </span><span class="au-term__cmd">whoami</span></div>
+              <div><span class="au-term__out">akinauphill</span></div>
+              <div><span class="au-term__prompt">akina@uphill</span><span class="au-term__path">:~$ </span><span class="au-term__cmd">cat role.txt</span></div>
+              <div><span class="au-term__out">founder &amp; co-owner @ KyotoServices</span></div>
+              <div><span class="au-term__prompt">akina@uphill</span><span class="au-term__path">:~$ </span><span class="au-term__cmd">ls ~/stack</span></div>
+              <div><span class="au-term__out">java&nbsp;&nbsp;kotlin&nbsp;&nbsp;python</span><span class="au-term__comment">&nbsp;&nbsp;// daily drivers</span></div>
+              <div><span class="au-term__out">angular&nbsp;&nbsp;react&nbsp;&nbsp;ktor</span></div>
+              <div><span class="au-term__cursor"></span></div>
+            </div>
+          </div>
+        </div>
+      </header>
 
-    <section id="projects">
-      <!-- projects content -->
-    </section>
+      <!-- ── Stats bar ─────────────────────────────────────────────────── -->
+      <section class="pf-section--tight pf-swell">
+        <div class="pf-wrap pf-statbar">
+          <div class="au-stat au-stat--center"><span class="au-stat__val">22</span><span class="au-stat__lbl">Years old</span></div>
+          <div class="au-stat au-stat--center"><span class="au-stat__val">6+</span><span class="au-stat__lbl">Languages</span></div>
+          <div class="au-stat au-stat--center"><span class="au-stat__val">3yr</span><span class="au-stat__lbl">Pro school</span></div>
+          <div class="au-stat au-stat--center"><span class="au-stat__val">30+</span><span class="au-stat__lbl">Repos shipped</span></div>
+        </div>
+      </section>
 
-    <section id="contact">
-      <!-- contact content -->
-    </section>
-  </main>
+      <!-- ── About ─────────────────────────────────────────────────────── -->
+      <section class="pf-section" id="about">
+        <div class="pf-wrap pf-about">
+          <div class="au-term">
+            <div class="au-term__bar">
+              <span class="au-term__dot" style="background: var(--accent)"></span>
+              <span class="au-term__dot" style="background: var(--cyan)"></span>
+              <span class="au-term__dot" style="background: var(--amber)"></span>
+              <span class="au-term__title">bash — about</span>
+            </div>
+            <div class="au-term__body">
+              <div><span class="au-term__prompt">akina@uphill</span><span class="au-term__path">:~$ </span><span class="au-term__cmd">./intro.sh</span></div>
+              <div><span class="au-term__out">Started on a hand-me-down laptop and a</span></div>
+              <div><span class="au-term__out">curiosity for how games were built.</span></div>
+              <div><span class="au-term__out">&nbsp;</span></div>
+              <div><span class="au-term__out">Self-taught the fundamentals, then went</span></div>
+              <div><span class="au-term__out">pro — 3 years of programming school.</span></div>
+              <div><span class="au-term__prompt">akina@uphill</span><span class="au-term__path">:~$ </span><span class="au-term__cmd">echo $MISSION</span></div>
+              <div><span class="au-term__out">make things that actually ship</span><span class="au-term__comment">&nbsp;&nbsp;// no shelfware</span></div>
+              <div><span class="au-term__cursor"></span></div>
+            </div>
+          </div>
+          <div class="pf-about__body">
+            <div class="au-shead">
+              <span class="au-shead__tag">// 01 — about</span>
+              <h2 class="au-shead__title">SELF-TAUGHT, THEN SHARPENED</h2>
+            </div>
+            <p>I&apos;m a <span class="hl">22-year-old developer</span> who learned to code the hard way — reverse-engineering the things I loved until they made sense.</p>
+            <p>Today I&apos;m the <span class="hl">founder and co-owner of KyotoServices</span>, where I build low-level anticheats, lightweight APIs, and the Angular web that ties it all together. I&apos;m equally at home in <span class="hl">Java, Kotlin and Python</span>.</p>
+          </div>
+        </div>
+      </section>
 
-  <footer>
-    <!-- footer content -->
-  </footer>
+      <!-- ── Skills ────────────────────────────────────────────────────── -->
+      <section class="pf-section pf-swell" id="stack">
+        <div class="pf-wrap">
+          <div class="au-shead au-shead--center">
+            <span class="au-shead__tag">// 02 — stack</span>
+            <h2 class="au-shead__title">WHAT I BUILD WITH</h2>
+            <p class="au-shead__sub">Six-plus languages and the frameworks I reach for daily.</p>
+          </div>
+          <div class="pf-skills" id="skillsGrid"></div>
+        </div>
+      </section>
+
+      <!-- ── Currently building (preview) ──────────────────────────────── -->
+      <section class="pf-section" id="work">
+        <div class="pf-wrap">
+          <div class="au-shead au-shead--center">
+            <span class="au-shead__tag">// 03 — work</span>
+            <h2 class="au-shead__title">CURRENTLY BUILDING</h2>
+            <p class="au-shead__sub">A slice of what's live and what's in progress across KyotoServices.</p>
+          </div>
+          <div class="pf-projgrid" id="previewGrid"></div>
+          <div class="pf-center">
+            <button class="au-btn au-btn--secondary" data-nav="projects">See all projects →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Contact ───────────────────────────────────────────────────── -->
+      <section class="pf-section pf-swell" id="contact">
+        <div class="pf-wrap pf-contact pf-contact--solo">
+          <div class="au-shead au-shead--center">
+            <span class="au-shead__tag">// 04 — contact</span>
+            <h2 class="au-shead__title">LET'S BUILD SOMETHING</h2>
+            <p class="au-shead__sub">Got a server, an API, or a wild idea? Find me on GitHub or in the Discord.</p>
+          </div>
+          <div class="pf-contact__badges">
+            <span class="au-badge au-badge--accent">● available</span>
+            <span class="au-badge au-badge--neutral">remote-first</span>
+          </div>
+          <div class="pf-contact__ctas">
+            <a class="au-btn au-btn--primary" href="https://github.com/akinauphill" target="_blank" rel="noreferrer">$ find me on GitHub</a>
+            <a class="au-btn au-btn--terminal" href="https://discord.kyotopvp.com" target="_blank" rel="noreferrer">join the Discord ›</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ════════════════════════ PROJECTS VIEW ════════════════════════════ -->
+    <main class="pf-view" id="view-projects">
+      <section class="pf-section pf-swell">
+        <div class="pf-wrap">
+          <div class="au-shead au-shead--center">
+            <span class="au-shead__tag">// projects</span>
+            <h2 class="au-shead__title">CURRENTLY BUILDING</h2>
+            <p class="au-shead__sub">Everything I'm shipping right now — across Minecraft infrastructure, the web, and Android.</p>
+          </div>
+          <div class="pf-filters" id="filters"></div>
+          <div id="featuredSlot"></div>
+        </div>
+      </section>
+      <section class="pf-section">
+        <div class="pf-wrap">
+          <div class="pf-projgrid" id="projectsGrid"></div>
+          <p id="projectsEmpty" style="display: none; text-align: center; color: var(--text-tertiary); margin-top: 2rem; font-family: var(--font-mono);">// nothing here yet — check back soon</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Footer ────────────────────────────────────────────────────────── -->
+    <footer class="pf-footer">
+      <div class="pf-footer__inner">
+        <div class="pf-brand">akinauphill<span class="pf-brand__cur">_</span></div>
+        <ul class="pf-footer__links">
+          <li><a href="https://github.com/akinauphill" target="_blank" rel="noreferrer">GitHub</a></li>
+          <li><a href="https://github.com/KyotoServices" target="_blank" rel="noreferrer">KyotoServices</a></li>
+          <li><a href="https://discord.kyotopvp.com" target="_blank" rel="noreferrer">Discord</a></li>
+        </ul>
+        <div class="pf-footer__copy">© 2026 akinauphill · built &amp; shipped solo</div>
+      </div>
+    </footer>
+
+  </div>
 
   <script src="script.js"></script>
 </body>
