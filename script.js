@@ -434,19 +434,21 @@ function initBackgroundFX() {
     .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   const rand = (arr) => arr[(Math.random() * arr.length) | 0];
 
-  // Gentle, calm fall. Glyphs are FIXED per cell (a stable streak with a moving
-  // head) so the field doesn't shimmer/"shake"; only the head and rare flickers
-  // change a character.
-  const SPEED_MIN = 0.11, SPEED_VAR = 0.26;          // rows per frame
-  function newCol(rows) {
-    return {
-      y: -Math.random() * rows,                       // start somewhere above the fold
-      speed: SPEED_MIN + Math.random() * SPEED_VAR,
-      len: 10 + ((Math.random() * 16) | 0),           // trail length
-      glyphs: new Array(rows),                         // persistent per-row glyphs
-      rows: rows,
-      lastHead: -1,
-    };
+  // Time-based fall (px/second) with continuous sub-pixel positions, so motion
+  // stays smooth at any refresh rate. Glyphs are FIXED per cell — a stable
+  // streak with a moving head — and the whole field is pre-seeded on load so the
+  // rain already looks in progress instead of filling in from empty.
+  const PXPS_MIN = 26, PXPS_VAR = 66;                 // fall speed, px per second
+  const RING = 32;                                     // per-column glyph ring buffer
+  const idx = (cell) => ((cell % RING) + RING) % RING;
+
+  function newCol(seeded) {
+    const len = 10 + ((Math.random() * 16) | 0);
+    const y = seeded ? Math.random() * (h + FONT * 4) - FONT * 4    // already on-screen
+                     : -Math.random() * FONT * 28;                  // spawn above the fold
+    const c = { y, speed: PXPS_MIN + Math.random() * PXPS_VAR, len, ring: new Array(RING), lastDrop: Math.floor(y / FONT) };
+    for (let j = 0; j <= len; j++) c.ring[idx(c.lastDrop - j)] = rand(GLYPHS);  // pre-fill trail
+    return c;
   }
 
   function setup() {
@@ -457,32 +459,27 @@ function initBackgroundFX() {
     ctx.font = `${FONT}px "Space Mono", ui-monospace, monospace`;
     ctx.textBaseline = 'top';
     const n = Math.ceil(w / FONT);
-    const rows = Math.ceil(h / FONT) + 2;
-    cols = Array.from({ length: n }, () => newCol(rows));
+    cols = Array.from({ length: n }, () => newCol(true));   // seed a full field → "resumes"
   }
 
-  function draw() {
+  function draw(dt) {
     ctx.clearRect(0, 0, w, h);
     for (let i = 0; i < cols.length; i++) {
       const c = cols[i];
       const x = i * FONT;
       const near = Math.abs(x - mx) < 90;            // subtle cursor reactivity
-      const head = Math.floor(c.y);
-      if (head !== c.lastHead) {                      // advanced a row → fix a glyph there
-        if (head >= 0 && head < c.rows) c.glyphs[head] = rand(GLYPHS);
-        c.lastHead = head;
-      }
-      if (Math.random() < 0.01) {                     // rare flicker keeps it alive, not jittery
-        const r = head - ((Math.random() * c.len) | 0);
-        if (r >= 0 && r < c.rows) c.glyphs[r] = rand(GLYPHS);
-      }
+      c.y += c.speed * (near ? 1.35 : 1) * dt;
+      const drop = Math.floor(c.y / FONT);
+      for (let d = c.lastDrop + 1; d <= drop; d++) c.ring[idx(d)] = rand(GLYPHS);  // fresh head glyphs
+      c.lastDrop = drop;
+      if (Math.random() < 0.01) c.ring[idx(drop - ((Math.random() * c.len) | 0))] = rand(GLYPHS); // rare flicker
       for (let j = 0; j < c.len; j++) {
-        const row = head - j;
-        if (row < 0 || row >= c.rows) continue;
-        const g = c.glyphs[row];
+        const cell = drop - j;
+        if (cell < 0) continue;
+        const yy = c.y - j * FONT;
+        if (yy < -FONT || yy > h) continue;
+        const g = c.ring[idx(cell)];
         if (!g) continue;
-        const yy = row * FONT;
-        if (yy > h) continue;
         if (j === 0) {
           ctx.shadowBlur = near ? 9 : 5;
           ctx.shadowColor = accent;
@@ -496,21 +493,20 @@ function initBackgroundFX() {
         ctx.globalAlpha = 1;
       }
       ctx.shadowBlur = 0;
-      c.y += c.speed * (near ? 1.35 : 1);
-      if ((c.y - c.len) * FONT > h) cols[i] = newCol(c.rows);   // recycle once off-screen
+      if (c.y - c.len * FONT > h) cols[i] = newCol(false);   // recycle once fully off-screen
     }
   }
 
   function loop(ts) {
     raf = requestAnimationFrame(loop);
     if (w !== window.innerWidth || h !== window.innerHeight) setup();   // self-heal on resize
-    if (ts - last < 55) return;                       // ~18fps — calm, light on the eyes
+    const dt = last ? Math.min((ts - last) / 1000, 0.05) : 0.016;       // seconds; clamp big gaps
     last = ts;
-    draw();
+    draw(dt);
   }
 
   setup();
-  if (reduce) { draw(); return; }                     // static single frame
+  if (reduce) { draw(0); return; }                    // static, already-seeded frame
   window.addEventListener('resize', setup);
   window.addEventListener('pointermove', (e) => { mx = e.clientX; }, { passive: true });
   window.addEventListener('pointerleave', () => { mx = -1e4; });
