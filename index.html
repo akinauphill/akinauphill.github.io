@@ -19,6 +19,7 @@
           <li><button data-nav="home#work">work</button></li>
           <li><button data-nav="home#about">about</button></li>
           <li><button data-nav="projects">projects</button></li>
+          <li><button data-nav="projects#gists">gists</button></li>
         </ul>
         <div class="pf-nav__right">
           <button class="pf-iconbtn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">◐</button>
@@ -75,7 +76,7 @@
           <div class="au-stat au-stat--center"><span class="au-stat__val">22</span><span class="au-stat__lbl">Years old</span></div>
           <div class="au-stat au-stat--center"><span class="au-stat__val">6+</span><span class="au-stat__lbl">Languages</span></div>
           <div class="au-stat au-stat--center"><span class="au-stat__val">3yr</span><span class="au-stat__lbl">Pro school</span></div>
-          <div class="au-stat au-stat--center"><span class="au-stat__val">30+</span><span class="au-stat__lbl">Repos shipped</span></div>
+          <div class="au-stat au-stat--center"><span class="au-stat__val" id="statRepos">14</span><span class="au-stat__lbl">Repos shipped</span></div>
         </div>
       </section>
 
@@ -165,8 +166,8 @@
         <div class="pf-wrap">
           <div class="au-shead au-shead--center">
             <span class="au-shead__tag">// projects</span>
-            <h2 class="au-shead__title">CURRENTLY BUILDING</h2>
-            <p class="au-shead__sub">Everything I'm shipping right now — across Minecraft infrastructure, the web, and Android.</p>
+            <h2 class="au-shead__title">EVERYTHING I'VE SHIPPED</h2>
+            <p class="au-shead__sub">Private KyotoServices work, my open-source repos, learning forks, and gists — public projects link straight to the source.</p>
           </div>
           <div class="pf-filters" id="filters"></div>
           <div id="featuredSlot"></div>
@@ -174,8 +175,18 @@
       </section>
       <section class="pf-section">
         <div class="pf-wrap">
-          <div class="pf-projgrid" id="projectsGrid"></div>
+          <div id="projectsGroups"></div>
           <p id="projectsEmpty" style="display: none; text-align: center; color: var(--text-tertiary); margin-top: 2rem; font-family: var(--font-mono);">// nothing here yet — check back soon</p>
+        </div>
+      </section>
+      <section class="pf-section pf-swell" id="gists">
+        <div class="pf-wrap" id="gistsSection">
+          <div class="au-shead au-shead--center">
+            <span class="au-shead__tag">// gists</span>
+            <h2 class="au-shead__title">SNIPPETS &amp; SCRATCHPADS</h2>
+            <p class="au-shead__sub">Small, useful things — scripts and codelab notes worth keeping around.</p>
+          </div>
+          <div class="pf-projgrid" id="gistsGrid"></div>
         </div>
       </section>
     </main>
