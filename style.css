@@ -33,6 +33,7 @@
   --surface-elevated: var(--ink-glass);
   --surface-nav: rgba(8, 10, 9, 0.82);
   --surface-nav-scrolled: rgba(8, 10, 9, 0.95);
+  --swell: rgba(255, 255, 255, 0.022);   /* faint translucent band — lets the rain through */
 
   /* Text */
   --text-primary: #e9efea;
@@ -153,6 +154,7 @@
   --surface-elevated: rgba(0, 0, 0, 0.025);
   --surface-nav: rgba(243, 245, 243, 0.86);
   --surface-nav-scrolled: rgba(243, 245, 243, 0.96);
+  --swell: rgba(13, 16, 14, 0.028);
 
   --text-primary: #0b140f;
   --text-secondary: #44504a;
@@ -438,7 +440,7 @@ img { display: block; max-width: 100%; }
 .pf-section { padding: var(--section-py) var(--section-px); position: relative; z-index: 1; }
 .pf-section--tight { padding: 3.5rem var(--section-px); position: relative; z-index: 1; }
 .pf-wrap { max-width: var(--max-w); margin: 0 auto; }
-.pf-swell { background: linear-gradient(180deg, transparent 0%, var(--surface-raised) 16%, var(--surface-raised) 84%, transparent 100%); }
+.pf-swell { background: linear-gradient(180deg, transparent 0%, var(--swell) 22%, var(--swell) 78%, transparent 100%); }
 
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 .pf-hero { position: relative; overflow: hidden; padding: 5rem var(--section-px) 4rem; }
