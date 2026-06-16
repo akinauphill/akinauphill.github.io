@@ -451,13 +451,20 @@ function initBackgroundFX() {
     return c;
   }
 
-  function setup() {
+  // Resize the canvas backing store only — keeps the existing rain intact. This
+  // is what runs when the mobile URL bar shows/hides (height-only changes), so
+  // scrolling no longer rebuilds (and visibly resets) the field.
+  function resizeCanvas() {
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = w * DPR; canvas.height = h * DPR;
     canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.font = `${FONT}px "Space Mono", ui-monospace, monospace`;
     ctx.textBaseline = 'top';
+  }
+
+  function setup() {                                  // full (re)build — first run / width change
+    resizeCanvas();
     const n = Math.ceil(w / FONT);
     cols = Array.from({ length: n }, () => newCol(true));   // seed a full field → "resumes"
   }
@@ -499,7 +506,8 @@ function initBackgroundFX() {
 
   function loop(ts) {
     raf = requestAnimationFrame(loop);
-    if (w !== window.innerWidth || h !== window.innerHeight) setup();   // self-heal on resize
+    if (w !== window.innerWidth) setup();             // width change → rebuild columns
+    else if (h !== window.innerHeight) resizeCanvas();// height-only (mobile URL bar) → keep the rain
     const dt = last ? Math.min((ts - last) / 1000, 0.05) : 0.016;       // seconds; clamp big gaps
     last = ts;
     draw(dt);
@@ -507,9 +515,12 @@ function initBackgroundFX() {
 
   setup();
   if (reduce) { draw(0); return; }                    // static, already-seeded frame
-  window.addEventListener('resize', setup);
-  window.addEventListener('pointermove', (e) => { mx = e.clientX; }, { passive: true });
-  window.addEventListener('pointerleave', () => { mx = -1e4; });
+  // Cursor reactivity is mouse-only — on touch devices, scrolling fires
+  // pointermove and would otherwise drag the rain around under your finger.
+  if (window.matchMedia('(pointer: fine)').matches) {
+    window.addEventListener('pointermove', (e) => { mx = e.clientX; }, { passive: true });
+    window.addEventListener('pointerleave', () => { mx = -1e4; });
+  }
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
     else if (!raf) { last = 0; raf = requestAnimationFrame(loop); }
